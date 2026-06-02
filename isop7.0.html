@@ -6,7 +6,6 @@
     <title>ispot</title>
     <style>
         :root {
-            /* הגדרות צבעים למצב כהה השומר על פרטיות */
             --bg-color: #121212;
             --card-bg: #1e1e1e;
             --text-main: #e0e0e0;
@@ -65,7 +64,6 @@
             cursor: not-allowed;
         }
 
-        /* סגנון כותרת המשנה המעודכנת */
         .sub-headline {
             font-family: 'Segoe UI', sans-serif;
             font-size: 1.15rem;
@@ -252,15 +250,12 @@
         <button id="nav-home" class="active" onclick="switchTab('app')">ispot</button>
         <button id="nav-guide" onclick="switchTab('guide')">איך משתמשים?</button>
         <button id="nav-advice" onclick="switchTab('advice')">עצות</button>
-        <!-- לשונית התרומה החדשה -->
         <button id="nav-donate" onclick="switchTab('donate')">תמיכה בפיתוח</button>
     </nav>
 
     <div id="tab-app">
-        <!-- מסך הבית הראשי -->
         <div id="screen-dashboard">
             <div class="sub-headline">מה נוכח בי נכון לעכשיו?</div>
-            
             <div class="main-title">בחר! דע! המשך!</div>
             
             <div class="gateway-list">
@@ -268,22 +263,18 @@
                     <div class="gateway-title">רגש</div>
                     <div class="gateway-choices" id="summary-emotion">לחץ לבחירת מילים...</div>
                 </div>
-                
                 <div class="gateway-row" onclick="openGate('sensation')">
                     <div class="gateway-title">תחושה</div>
                     <div class="gateway-choices" id="summary-sensation">לחץ לבחירת מילים...</div>
                 </div>
-
                 <div class="gateway-row" onclick="openGate('physical_sensation')">
                     <div class="gateway-title">תחושה גופנית</div>
                     <div class="gateway-choices" id="summary-physical_sensation">לחץ לבחירת מילים...</div>
                 </div>
-
                 <div class="gateway-row" onclick="openGate('body_location')">
                     <div class="gateway-title">מקום בגוף</div>
                     <div class="gateway-choices" id="summary-body_location">לחץ לבחירת מילים...</div>
                 </div>
-                
                 <div class="gateway-row" onclick="openGate('time')">
                     <div class="gateway-title">זמן אירוע</div>
                     <div class="gateway-choices" id="summary-time">לחץ לבחירת מילים...</div>
@@ -294,39 +285,30 @@
             <button class="btn-reset" onclick="resetAll()">אפס בחירות</button>
         </div>
 
-        <!-- מסך בחירת מילים דינמי -->
         <div id="screen-gate" class="hidden">
             <h1 id="gate-title">קטגוריה</h1>
             <p style="font-size: 0.9rem; color: var(--text-muted);">בכל חלון בחר את התיאור/ים המתאימים למצבך הנוכחי (מומלץ לבחור כמה):</p>
-            
             <div class="words-grid" id="words-container"></div>
-
             <div class="btn-back-container">
                 <button class="btn-system" onclick="closeGate()">המשך</button>
             </div>
         </div>
 
-        <!-- מסך סיכום מרוכז -->
         <div id="screen-summary" class="hidden">
             <h1>מצב נוכחי</h1>
-            
             <div id="final-summary-content" class="summary-box"></div>
-            
             <div class="btn-back-container">
                 <button class="btn-system" onclick="closeSummaryScreen()">חזור לעדכון הבחירות</button>
             </div>
         </div>
     </div>
 
-    <!-- דף הוראות שימוש -->
     <div id="tab-guide" class="hidden">
         <h1>איך משתמשים?</h1>
         <p>אפליקציה זו נועה לזהות את המתחולל בגופך, מחשבותיך ורגשותייך בזמן אמת, לך ובשבילך.</p>
-        
         <p>וזאת בנויה באופן שבעצם המילוי, של זה המתרחש בך כעת, המחשבה נהיית צלולה ובעלת כוח, על-ידי כך שההגדרות למילות רגש הן אכן רגשות, תחושות הן אכן תחושות וכו (בעצם ההצבעה על דבר מה נכון ואמיתי).</p>
         <p>מחשבה מסודרת ונכונה מובילה לתוצאה רצויה, ראיה מפוקחת והיות האחד מובן וברור לו ולסביבתו ובעל יכולת הבחנה בזה הקיים האפשרי והנוכח ברגע נתון.</p>
         <p>נדרש היות האחד כן, אמיץ ובעל אורך רוח לתהליך ולדרך! בהצלחה!</p>
-        
         <p style="margin-top: 25px;"><strong>התהליך:</strong></p>
         <ul>
             <li><strong>סדר הפעולות חופשי:</strong> מאיפה להתחיל ומתי לסיים ואיך.</li>
@@ -334,7 +316,6 @@
         </ul>
     </div>
 
-    <!-- דף עצות -->
     <div id="tab-advice" class="hidden">
         <h1>עצות</h1>
         <ul class="advice-list">
@@ -357,12 +338,10 @@
         </ul>
     </div>
 
-    <!-- דף תמיכה בפיתוח עם קישור פייפאל המאובטח -->
     <div id="tab-donate" class="hidden">
         <h1>תמיכה בפיתוח האפליקציה</h1>
         <p>ispot היא אפליקציה עצמאית שנבנתה מתוך שאיפה להביא בהירות מחשבתית, מודעות עצמית ודיוק שפתי לכל אדם, ללא כוונת רווח, ללא פרסומות ותוך שמירה מוחלטת על הפרטיות שלך.</p>
         <p>אם מצאת ערך בתהליך ואתה מעוניין לתמוך בהמשך הפיתוח, השדרוגים והתחזוקה של האפליקציה, אנו מודים לך מעומק הלב על כל תרומה.</p>
-        
         <div style="text-align: center; margin-top: 35px;">
             <a href="https://www.paypal.com/ncp/payment/QQBQU3N277CEN" target="_blank" class="btn-system" style="display: inline-block; text-decoration: none; max-width: 250px;">
                 💳 תרומה מאובטחת ב-PayPal
@@ -381,9 +360,7 @@
         ],
         sensation: [
             'ביטחון', 'שייכות', 'סיפוק', 'הערכה', 'רווחה', 'רוגע', 'חיוניות', 'הודיה', 'יציבות', 'ערך', 'חופש',
-            'בדידות', 'רדיפה', 'ערעור',
-            'בוז', 'לעג', 'בושה', 'כוח', 'רפיון', 'קבלה',
-            'זעם', 'קרבה', 'גאווה', 'תסכול', 'עויינות'
+            'בדידות', 'רדיפה', 'ערעור', 'בוז', 'לעג', 'בושה', 'כוח', 'רפיון', 'קבלה', 'זעם', 'קרבה', 'גאווה', 'תסכול', 'עויינות'
         ],
         physical_sensation: [
             'בוער', 'גועש', 'דוקר', 'דחוס', 'חם', 'חנוק', 'טשטוש', 'כבד', 'כואב', 'כיווץ', 
@@ -394,10 +371,7 @@
             'בטן', 'גב עליון', 'גב תחתון', 'גרון', 'חזה', 'ידיים', 'כתפיים', 'לב', 'מצח', 'עיניים', 'עורף', 'צוואר', 'ראש', 'רגליים'
         ],
         time: [
-            'אירוע מהעבר הרחוק', 
-            'אירוע מהעבר הקרוב', 
-            'אירוע עתידי', 
-            'אירוע שאיני יודע כרגע'
+            'אירוע מהעבר הרחוק', 'אירוע מהעבר הקרוב', 'אירוע עתידי', 'אירוע שאיני יודע כרגע'
         ]
     };
 
@@ -424,13 +398,7 @@
 
     function openGate(gateType) {
         currentActiveGate = gateType;
-        const titles = { 
-            emotion: 'רגש', 
-            sensation: 'תחושה', 
-            physical_sensation: 'תחושה גופנית', 
-            body_location: 'מקום בגוף', 
-            time: 'זמן אירוע' 
-        };
+        const titles = { emotion: 'רגש', sensation: 'תחושה', physical_sensation: 'תחושה גופנית', body_location: 'מקום בגוף', time: 'זמן אירוע' };
         document.getElementById('gate-title').innerText = titles[gateType];
 
         const container = document.getElementById('words-container');
@@ -440,10 +408,7 @@
             const btn = document.createElement('button');
             btn.className = 'word-button';
             btn.innerText = word;
-            
-            if (userSelections[gateType].includes(word)) {
-                btn.classList.add('selected');
-            }
+            if (userSelections[gateType].includes(word)) btn.classList.add('selected');
 
             btn.onclick = function() {
                 if (btn.classList.contains('selected')) {
@@ -455,10 +420,8 @@
                 }
                 updateDashboardSummary();
             };
-
             container.appendChild(btn);
         });
-
         document.getElementById('screen-dashboard').classList.add('hidden');
         document.getElementById('screen-gate').classList.remove('hidden');
     }
@@ -471,7 +434,6 @@
     function openSummaryScreen() {
         const container = document.getElementById('final-summary-content');
         container.innerHTML = '';
-
         const categories = [
             { type: 'emotion', label: 'רגש מתחולל' },
             { type: 'sensation', label: 'תחושה קיומית' },
@@ -479,26 +441,17 @@
             { type: 'body_location', label: 'מקום בגוף' },
             { type: 'time', label: 'זמן אירוע' }
         ];
-
         let hasChoices = false;
-
         categories.forEach(cat => {
             if (userSelections[cat.type].length > 0) {
                 hasChoices = true;
                 const item = document.createElement('div');
                 item.className = 'summary-item';
-                item.innerHTML = `
-                    <div class="summary-item-title">${cat.label}</div>
-                    <div class="summary-item-content">${userSelections[cat.type].join(', ')}</div>
-                `;
+                item.innerHTML = `<div class="summary-item-title">${cat.label}</div><div class="summary-item-content">${userSelections[cat.type].join(', ')}</div>`;
                 container.appendChild(item);
             }
         });
-
-        if (!hasChoices) {
-            container.innerHTML = '<div style="text-align: center; padding: 20px; font-size: 0.95rem; color: var(--text-muted);">טרם נבחרו מילים.</div>';
-        }
-
+        if (!hasChoices) container.innerHTML = '<div style="text-align: center; padding: 20px; font-size: 0.95rem; color: var(--text-muted);">טרם נבחרו מילים.</div>';
         document.getElementById('app-nav').classList.add('hidden'); 
         document.getElementById('screen-dashboard').classList.add('hidden');
         document.getElementById('screen-summary').classList.remove('hidden');
@@ -525,11 +478,11 @@
         });
     }
 
+    // הקפדה על ניקוי מלא באיפוס
     function resetAll() {
         userSelections = { emotion: [], sensation: [], physical_sensation: [], body_location: [], time: [] };
         updateDashboardSummary();
     }
 </script>
-
 </body>
 </html>
