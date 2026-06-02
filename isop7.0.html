@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ispot</title>
+    <style>
+        :root {
+            /* הגדרות צבעים למצב כהה השומר על פרטיות */
+            --bg-color: #121212;
+            --card-bg: #1e1e1e;
+            --text-main: #e0e0e0;
+            --text-muted: #a0a0a0;
+            --border-color: #333333;
+            --accent-color: #ffffff;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            margin: 0;
+            padding: 15px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .app-container {
+            max-width: 480px;
+            width: 100%;
+            padding: 10px;
+            min-height: 85vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        nav {
+            display: flex;
+            gap: 15px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+
+        nav button {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            cursor: pointer;
+            padding: 5px 0;
+            flex-shrink: 0;
+        }
+
+        nav button.active {
+            color: var(--text-main);
+            border-bottom: 2px solid var(--text-main);
+            font-weight: bold;
+        }
+
+        nav button.disabled {
+            opacity: 0.2;
+            cursor: not-allowed;
+        }
+
+        /* סגנון כותרת המשנה המעודכנת */
+        .sub-headline {
+            font-family: 'Segoe UI', sans-serif;
+            font-size: 1.15rem;
+            font-weight: 500;
+            text-align: center;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+            letter-spacing: 0.2px;
+        }
+
+        .main-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 25px;
+            letter-spacing: 0.5px;
+            color: var(--text-main);
+        }
+
+        h1 {
+            font-size: 1.3rem;
+            margin-top: 0;
+            margin-bottom: 15px;
+            color: var(--text-main);
+        }
+
+        .gateway-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .gateway-row {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 15px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .gateway-row:hover {
+            background-color: #252525;
+        }
+
+        .gateway-title {
+            font-weight: bold;
+            font-size: 1.05rem;
+            margin-bottom: 4px;
+            color: var(--text-main);
+        }
+
+        .gateway-choices {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            min-height: 1.2rem;
+        }
+
+        .words-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 15px;
+            margin-bottom: 25px;
+        }
+
+        .word-button {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            padding: 8px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .word-button:hover {
+            background-color: #252525;
+        }
+
+        .word-button.selected {
+            background-color: var(--accent-color);
+            color: var(--bg-color);
+            border-color: var(--accent-color);
+            font-weight: 500;
+        }
+
+        .btn-system {
+            background: none;
+            border: 1px solid var(--text-main);
+            color: var(--text-main);
+            padding: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            width: 100%;
+            font-size: 0.95rem;
+            transition: background-color 0.2s, color 0.2s;
+            text-align: center;
+        }
+
+        .btn-system:hover {
+            background-color: var(--text-main);
+            color: var(--bg-color);
+        }
+
+        .btn-back-container {
+            margin-top: auto;
+        }
+
+        .btn-reset {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            text-decoration: underline;
+            cursor: pointer;
+            margin-top: 15px;
+            padding: 5px;
+            font-size: 0.85rem;
+            align-self: center;
+        }
+
+        .btn-reset:hover {
+            color: var(--text-main);
+        }
+
+        .summary-box {
+            margin-top: 20px;
+        }
+
+        .summary-item {
+            margin-bottom: 16px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 12px;
+        }
+        
+        .summary-item:last-child {
+            border-bottom: none;
+        }
+
+        .summary-item-title {
+            font-weight: bold;
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+        }
+
+        .summary-item-content {
+            font-size: 1.05rem;
+            font-weight: 500;
+            color: var(--accent-color);
+        }
+
+        .advice-list {
+            list-style-type: none;
+            padding-right: 0;
+            line-height: 1.7;
+        }
+
+        .advice-item {
+            margin-bottom: 24px;
+            font-size: 1rem;
+            color: var(--text-main);
+        }
+
+        .advice-item strong {
+            display: block;
+            font-size: 1.05rem;
+            margin-bottom: 4px;
+            color: var(--accent-color);
+        }
+
+        .hidden { display: none !important; }
+        ul { padding-left: 0; padding-right: 20px; line-height: 1.6; }
+        li { margin-bottom: 12px; font-size: 0.95rem; }
+        p { line-height: 1.6; }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <nav id="app-nav">
+        <button id="nav-home" class="active" onclick="switchTab('app')">ispot</button>
+        <button id="nav-guide" onclick="switchTab('guide')">איך משתמשים?</button>
+        <button id="nav-advice" onclick="switchTab('advice')">עצות</button>
+        <!-- לשונית התרומה החדשה -->
+        <button id="nav-donate" onclick="switchTab('donate')">תמיכה בפיתוח</button>
+    </nav>
+
+    <div id="tab-app">
+        <!-- מסך הבית הראשי -->
+        <div id="screen-dashboard">
+            <div class="sub-headline">מה נוכח בי נכון לעכשיו?</div>
+            
+            <div class="main-title">בחר! דע! המשך!</div>
+            
+            <div class="gateway-list">
+                <div class="gateway-row" onclick="openGate('emotion')">
+                    <div class="gateway-title">רגש</div>
+                    <div class="gateway-choices" id="summary-emotion">לחץ לבחירת מילים...</div>
+                </div>
+                
+                <div class="gateway-row" onclick="openGate('sensation')">
+                    <div class="gateway-title">תחושה</div>
+                    <div class="gateway-choices" id="summary-sensation">לחץ לבחירת מילים...</div>
+                </div>
+
+                <div class="gateway-row" onclick="openGate('physical_sensation')">
+                    <div class="gateway-title">תחושה גופנית</div>
+                    <div class="gateway-choices" id="summary-physical_sensation">לחץ לבחירת מילים...</div>
+                </div>
+
+                <div class="gateway-row" onclick="openGate('body_location')">
+                    <div class="gateway-title">מקום בגוף</div>
+                    <div class="gateway-choices" id="summary-body_location">לחץ לבחירת מילים...</div>
+                </div>
+                
+                <div class="gateway-row" onclick="openGate('time')">
+                    <div class="gateway-title">זמן אירוע</div>
+                    <div class="gateway-choices" id="summary-time">לחץ לבחירת מילים...</div>
+                </div>
+            </div>
+
+            <button class="btn-system" style="margin-top: 10px;" onclick="openSummaryScreen()">הצג סיכום</button>
+            <button class="btn-reset" onclick="resetAll()">אפס בחירות</button>
+        </div>
+
+        <!-- מסך בחירת מילים דינמי -->
+        <div id="screen-gate" class="hidden">
+            <h1 id="gate-title">קטגוריה</h1>
+            <p style="font-size: 0.9rem; color: var(--text-muted);">בכל חלון בחר את התיאור/ים המתאימים למצבך הנוכחי (מומלץ לבחור כמה):</p>
+            
+            <div class="words-grid" id="words-container"></div>
+
+            <div class="btn-back-container">
+                <button class="btn-system" onclick="closeGate()">המשך</button>
+            </div>
+        </div>
+
+        <!-- מסך סיכום מרוכז -->
+        <div id="screen-summary" class="hidden">
+            <h1>מצב נוכחי</h1>
+            
+            <div id="final-summary-content" class="summary-box"></div>
+            
+            <div class="btn-back-container">
+                <button class="btn-system" onclick="closeSummaryScreen()">חזור לעדכון הבחירות</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- דף הוראות שימוש -->
+    <div id="tab-guide" class="hidden">
+        <h1>איך משתמשים?</h1>
+        <p>אפליקציה זו נועה לזהות את המתחולל בגופך, מחשבותיך ורגשותייך בזמן אמת, לך ובשבילך.</p>
+        
+        <p>וזאת בנויה באופן שבעצם המילוי, של זה המתרחש בך כעת, המחשבה נהיית צלולה ובעלת כוח, על-ידי כך שההגדרות למילות רגש הן אכן רגשות, תחושות הן אכן תחושות וכו (בעצם ההצבעה על דבר מה נכון ואמיתי).</p>
+        <p>מחשבה מסודרת ונכונה מובילה לתוצאה רצויה, ראיה מפוקחת והיות האחד מובן וברור לו ולסביבתו ובעל יכולת הבחנה בזה הקיים האפשרי והנוכח ברגע נתון.</p>
+        <p>נדרש היות האחד כן, אמיץ ובעל אורך רוח לתהליך ולדרך! בהצלחה!</p>
+        
+        <p style="margin-top: 25px;"><strong>התהליך:</strong></p>
+        <ul>
+            <li><strong>סדר הפעולות חופשי:</strong> מאיפה להתחיל ומתי לסיים ואיך.</li>
+            <li>בכל חלון בחר את התיאור/ים המתאימים למצבך הנוכחי (מומלץ לבחור כמה).</li>
+        </ul>
+    </div>
+
+    <!-- דף עצות -->
+    <div id="tab-advice" class="hidden">
+        <h1>עצות</h1>
+        <ul class="advice-list">
+            <li class="advice-item">
+                <strong>ראשית</strong>
+                את המילה "עצמי" להוריד איפה ומתי שלא נחוץ. כמו במושג "אהבה עצמית". ניתן ורצוי לומר: להיות בקבלה אם זאת הכוונה או לחוש ולהרגיש אהבה או לאהוב ולהיות נאהב.
+            </li>
+            <li class="advice-item">
+                <strong>שנית</strong>
+                כשאדם מהרהר בדבר מה חשוב לו רצוי וחשוב לחשוב במשפטים שלמים ואף רצוי ארוכים ולא בשפת רחוב קצרה ולקונית.
+            </li>
+            <li class="advice-item">
+                <strong>שלישית</strong>
+                לזהות ולהרחיב את המנעד בשימוש במילות רגש. כלומר: דבר ראשון להכיר בכ-40 מילים בעלי רגשות שונים ומטען שונה בגוף ושנית לדעת איזה רגש מביניהם נוכח בך עכשיו.
+            </li>
+            <li class="advice-item">
+                <strong>רביעית</strong>
+                לדבר בהפכים. כלומר: לא לומר לא מרגיש טוב אלא חש ברע או הרבה יותר נכון וטוב לומר, מרגיש עצבות, כעס, שמחה, אושר וכו.
+            </li>
+        </ul>
+    </div>
+
+    <!-- דף תמיכה בפיתוח עם קישור פייפאל המאובטח -->
+    <div id="tab-donate" class="hidden">
+        <h1>תמיכה בפיתוח האפליקציה</h1>
+        <p>ispot היא אפליקציה עצמאית שנבנתה מתוך שאיפה להביא בהירות מחשבתית, מודעות עצמית ודיוק שפתי לכל אדם, ללא כוונת רווח, ללא פרסומות ותוך שמירה מוחלטת על הפרטיות שלך.</p>
+        <p>אם מצאת ערך בתהליך ואתה מעוניין לתמוך בהמשך הפיתוח, השדרוגים והתחזוקה של האפליקציה, אנו מודים לך מעומק הלב על כל תרומה.</p>
+        
+        <div style="text-align: center; margin-top: 35px;">
+            <a href="https://www.paypal.com/ncp/payment/QQBQU3N277CEN" target="_blank" class="btn-system" style="display: inline-block; text-decoration: none; max-width: 250px;">
+                💳 תרומה מאובטחת ב-PayPal
+            </a>
+        </div>
+    </div>
+</div>
+
+<script>
+    const wordBank = {
+        emotion: [
+            'אכזבה', 'אהבה', 'אהדה', 'אמון', 'אשמה', 'בוז', 'בהלה', 'געגוע', 
+            'דאגה', 'דכדוך', 'דאבון', 'פליאה', 'חמלה', 'חרדה', 'יאוש', 'כעס', 
+            'מבוכה', 'מרירות', 'עלבון', 'עצב', 'ציפייה', 'צער', 'צניעות', 'קנאה', 'טינה', 'תסכול',
+            'שמחה', 'הודיה', 'מליצות', 'אושר', 'סקרנות', 'תקווה'
+        ],
+        sensation: [
+            'ביטחון', 'שייכות', 'סיפוק', 'הערכה', 'רווחה', 'רוגע', 'חיוניות', 'הודיה', 'יציבות', 'ערך', 'חופש',
+            'בדידות', 'רדיפה', 'ערעור',
+            'בוז', 'לעג', 'בושה', 'כוח', 'רפיון', 'קבלה',
+            'זעם', 'קרבה', 'גאווה', 'תסכול', 'עויינות'
+        ],
+        physical_sensation: [
+            'בוער', 'גועש', 'דוקר', 'דחוס', 'חם', 'חנוק', 'טשטוש', 'כבד', 'כואב', 'כיווץ', 
+            'לחוץ', 'מתוח', 'מכווץ', 'מציק', 'מגרד', 'נוקשה', 'נעים', 'נפוח', 'עקצוץ', 'עייף', 
+            'ערני', 'פועם', 'צמרמורת', 'קפוא', 'קר', 'קל', 'רועד', 'רחב', 'רפוי', 'רדום', 'שורף'
+        ],
+        body_location: [
+            'בטן', 'גב עליון', 'גב תחתון', 'גרון', 'חזה', 'ידיים', 'כתפיים', 'לב', 'מצח', 'עיניים', 'עורף', 'צוואר', 'ראש', 'רגליים'
+        ],
+        time: [
+            'אירוע מהעבר הרחוק', 
+            'אירוע מהעבר הקרוב', 
+            'אירוע עתידי', 
+            'אירוע שאיני יודע כרגע'
+        ]
+    };
+
+    let userSelections = { emotion: [], sensation: [], physical_sensation: [], body_location: [], time: [] };
+    let currentActiveGate = '';
+
+    function switchTab(tabName) {
+        document.getElementById('tab-app').classList.add('hidden');
+        document.getElementById('tab-guide').classList.add('hidden');
+        document.getElementById('tab-advice').classList.add('hidden');
+        document.getElementById('tab-donate').classList.add('hidden');
+        
+        document.getElementById('nav-home').classList.remove('active');
+        document.getElementById('nav-guide').classList.remove('active');
+        document.getElementById('nav-advice').classList.remove('active');
+        document.getElementById('nav-donate').classList.remove('active');
+
+        document.getElementById('tab-' + tabName).classList.remove('hidden');
+        if(tabName === 'app') document.getElementById('nav-home').classList.add('active');
+        if(tabName === 'guide') document.getElementById('nav-guide').classList.add('active');
+        if(tabName === 'advice') document.getElementById('nav-advice').classList.add('active');
+        if(tabName === 'donate') document.getElementById('nav-donate').classList.add('active');
+    }
+
+    function openGate(gateType) {
+        currentActiveGate = gateType;
+        const titles = { 
+            emotion: 'רגש', 
+            sensation: 'תחושה', 
+            physical_sensation: 'תחושה גופנית', 
+            body_location: 'מקום בגוף', 
+            time: 'זמן אירוע' 
+        };
+        document.getElementById('gate-title').innerText = titles[gateType];
+
+        const container = document.getElementById('words-container');
+        container.innerHTML = '';
+        
+        wordBank[gateType].forEach(word => {
+            const btn = document.createElement('button');
+            btn.className = 'word-button';
+            btn.innerText = word;
+            
+            if (userSelections[gateType].includes(word)) {
+                btn.classList.add('selected');
+            }
+
+            btn.onclick = function() {
+                if (btn.classList.contains('selected')) {
+                    btn.classList.remove('selected');
+                    userSelections[gateType] = userSelections[gateType].filter(w => w !== word);
+                } else {
+                    btn.classList.add('selected');
+                    userSelections[gateType].push(word);
+                }
+                updateDashboardSummary();
+            };
+
+            container.appendChild(btn);
+        });
+
+        document.getElementById('screen-dashboard').classList.add('hidden');
+        document.getElementById('screen-gate').classList.remove('hidden');
+    }
+
+    function closeGate() {
+        document.getElementById('screen-gate').classList.add('hidden');
+        document.getElementById('screen-dashboard').classList.remove('hidden');
+    }
+
+    function openSummaryScreen() {
+        const container = document.getElementById('final-summary-content');
+        container.innerHTML = '';
+
+        const categories = [
+            { type: 'emotion', label: 'רגש מתחולל' },
+            { type: 'sensation', label: 'תחושה קיומית' },
+            { type: 'physical_sensation', label: 'תחושה גופנית' },
+            { type: 'body_location', label: 'מקום בגוף' },
+            { type: 'time', label: 'זמן אירוע' }
+        ];
+
+        let hasChoices = false;
+
+        categories.forEach(cat => {
+            if (userSelections[cat.type].length > 0) {
+                hasChoices = true;
+                const item = document.createElement('div');
+                item.className = 'summary-item';
+                item.innerHTML = `
+                    <div class="summary-item-title">${cat.label}</div>
+                    <div class="summary-item-content">${userSelections[cat.type].join(', ')}</div>
+                `;
+                container.appendChild(item);
+            }
+        });
+
+        if (!hasChoices) {
+            container.innerHTML = '<div style="text-align: center; padding: 20px; font-size: 0.95rem; color: var(--text-muted);">טרם נבחרו מילים.</div>';
+        }
+
+        document.getElementById('app-nav').classList.add('hidden'); 
+        document.getElementById('screen-dashboard').classList.add('hidden');
+        document.getElementById('screen-summary').classList.remove('hidden');
+    }
+
+    function closeSummaryScreen() {
+        document.getElementById('screen-summary').classList.add('hidden');
+        document.getElementById('app-nav').classList.remove('hidden');
+        document.getElementById('screen-dashboard').classList.remove('hidden');
+    }
+
+    function updateDashboardSummary() {
+        ['emotion', 'sensation', 'physical_sensation', 'body_location', 'time'].forEach(type => {
+            const summaryEl = document.getElementById('summary-' + type);
+            if (userSelections[type].length > 0) {
+                summaryEl.innerText = userSelections[type].join(', ');
+                summaryEl.style.fontWeight = '500';
+                summaryEl.style.color = 'var(--text-main)';
+            } else {
+                summaryEl.innerText = 'לחץ לבחירת מילים...';
+                summaryEl.style.fontWeight = 'normal';
+                summaryEl.style.color = 'var(--text-muted)';
+            }
+        });
+    }
+
+    function resetAll() {
+        userSelections = { emotion: [], sensation: [], physical_sensation: [], body_location: [], time: [] };
+        updateDashboardSummary();
+    }
+</script>
+
+</body>
+</html>
